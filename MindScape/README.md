@@ -81,8 +81,22 @@ The client will start on `http://localhost:5173` (default Vite port).
 - This repo is split into `client/` (Vite static frontend) and `server/` (Express API). Vercel will not run an always-on Express server from `server/src/server.js` as part of the frontend deploy.
 - Deploy the backend separately (Render/Railway/Fly.io/any Node host), then set `VITE_API_URL` in your Vercel frontend project to that backend’s base URL and redeploy.
 - If you deploy both under the same domain via a proxy/rewrite, you can omit `VITE_API_URL` and the frontend will call `/api/...` on the same origin.
+- Your backend deployment must use a hosted MongoDB (e.g., MongoDB Atlas). A `MONGO_URI` like `mongodb://localhost:27017/...` will not work from Vercel/most cloud hosts.
+
+### Deploying the backend on Vercel (Serverless)
+
+- In the Vercel project for the backend, set **Root Directory** to `server/`.
+- The backend is exposed as Serverless Functions via `server/api/[...all].js`, so your API base URL is:
+  - `https://<your-backend-project>.vercel.app/api`
+- Set these Environment Variables in the backend Vercel project:
+  - `MONGO_URI` = your MongoDB Atlas connection string
+  - `GROQ_API_KEY` (if you use Groq)
+  - `PORT` is ignored on Vercel (serverless), but is used for local dev.
 
 ## API Endpoints
+
+### `GET /api/health`
+Health check. Returns basic status including MongoDB connection `readyState`.
 
 ### `POST /api/journal`
 Creates a new journal entry.

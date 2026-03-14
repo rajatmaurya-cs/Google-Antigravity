@@ -1,7 +1,9 @@
 const Journal = require('../models/Journal');
+const connectDB = require('../config/db');
 
 const insightService = {
     calculateInsights: async (userId) => {
+        await connectDB();
         const entries = await Journal.find({ userId }).sort({ createdAt: -1 });
         
         const totalEntries = entries.length;

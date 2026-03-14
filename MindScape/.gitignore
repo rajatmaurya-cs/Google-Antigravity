@@ -1,0 +1,15 @@
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+
+# Dependencies / builds
+**/node_modules/
+**/dist/
+**/dist-ssr/
+
+# Env files (do not commit secrets)
+**/.env
+**/.env.*
+!**/.env.example
+
