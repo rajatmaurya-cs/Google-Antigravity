@@ -54,7 +54,6 @@ const connectDB = async () => {
 
     const opts = {
       bufferCommands: false,
-      bufferTimeoutMS: 30000,
       connectTimeoutMS: 30000,
       serverSelectionTimeoutMS: 30000,
       maxPoolSize: 10,
@@ -63,6 +62,8 @@ const connectDB = async () => {
     const fallbackUri = 'mongodb://localhost:27017/ai-journal';
 
     mongoose.set('bufferCommands', false);
+    // Note: bufferTimeoutMS is a Mongoose setting (not a MongoDB driver option),
+    // so it must not be passed via mongoose.connect() options.
     cached.promise = mongoose.connect(uri || fallbackUri, opts).then((m) => {
       console.log('✓ MongoDB connection established');
       return m;

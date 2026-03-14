@@ -29,7 +29,7 @@ app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 // Rate limiting
 app.use(apiLimiter);
-console.log("Request Hit the Backend");
+
 // Health check endpoint
 app.get('/api/health', asyncHandler(async (req, res) => {
   // If the deployed entrypoint isn't the serverless handler, ensure DB is still attempted here.
@@ -51,6 +51,12 @@ app.get('/api/health', asyncHandler(async (req, res) => {
       readyState: mongoose.connection.readyState,
     },
   });
+}));
+
+// Ensure DB is connected for all journal endpoints (covers deployments that route directly to app.js).
+app.use('/api/journal', asyncHandler(async (req, res, next) => {
+  await connectDB();
+  next();
 }));
 
 // API Routes
