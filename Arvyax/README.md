@@ -8,6 +8,8 @@ A full-stack MERN application that helps users journal about nature experiences 
 
 ---
 
+## Live Demo: https://aurafronted2.vercel.app
+
 ## 🎯 Features
 
 ### Core Features
