@@ -4,21 +4,17 @@ const journalRoutes = require('./routes/journalRoutes');
 
 const app = express();
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Routes
 console.log("just before to enter backend function");
 
-app.use('/', (req, res, next) => {
-    console.log("Midscape server is running");
-    next();
+app.get('/', (req, res) => {
+    res.status(200).json({ message: "Mindscape server is running 🚀" });
 });
 
 app.use('/api/journal', journalRoutes);
 
-// Centralized error handler
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(err.status || 500).json({
