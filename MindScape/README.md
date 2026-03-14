@@ -52,7 +52,11 @@ LLM_MODEL=gemini-2.5-flash
 
 **Frontend (`client/.env`)**
 ```env
-VITE_API_URL=http://localhost:5000/api
+# Base URL of the backend (with or without `/api`).
+# - Local: http://localhost:5000
+# - Deployed separately: https://your-backend.example.com
+# - Deployed on the same Vercel project (see below): leave unset to use same-origin `/api`
+VITE_API_URL=http://localhost:5000
 ```
 
 ### 2. Backend Setup
@@ -70,6 +74,19 @@ npm install
 npm run dev
 ```
 The client will start on `http://localhost:5173` (default Vite port).
+
+## Deploying to Vercel (Frontend + Backend)
+
+This repo includes a `vercel.json` and a Vercel Serverless Function entrypoint at `api/index.js`, so you can deploy both the Vite frontend and the Express API in a single Vercel project.
+
+### Vercel Environment Variables
+Set these in Vercel → Project → Settings → Environment Variables (Production + Preview):
+- `MONGO_URI` (MongoDB Atlas connection string)
+- `GROQ_API_KEY` (or your LLM key, depending on your configuration)
+- Optional: `GROQ_MODEL`
+
+### Frontend API URL
+If you deploy frontend + backend together on the same Vercel project, you can omit `VITE_API_URL` and the frontend will call the same-origin `/api/...` routes automatically.
 
 ## API Endpoints
 

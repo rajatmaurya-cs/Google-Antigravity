@@ -1,4 +1,10 @@
-const API_BASE = `${import.meta.env.VITE_API_URL}/api`;
+function normalizeApiBase(value) {
+    const trimmed = (value || '').trim().replace(/\/$/, '');
+    if (!trimmed) return '/api';
+    return trimmed.endsWith('/api') ? trimmed : `${trimmed}/api`;
+}
+
+const API_BASE = normalizeApiBase(import.meta.env.VITE_API_URL);
 
 export const api = {
     // 1. Create a journal entry
@@ -21,7 +27,6 @@ export const api = {
 
     // 3. Analyze any raw text
     analyzeRawText: async (text) => {
-        console.log("Entered in analyzeText fronted")
         const res = await fetch(`${API_BASE}/journal/analyze`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -33,9 +38,6 @@ export const api = {
 
     // 4. Analyze and save to a specific entry id
     analyzeSavedEntry: async (entryId) => {
-        
-        console.log("Entered in analyzeedSabedEntry");
-
         const res = await fetch(`${API_BASE}/journal/${entryId}/analyze`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' }
