@@ -1,5 +1,4 @@
 const Journal = require('../models/Journal');
-const connectDB = require('../config/db');
 
 const llmService = require('../services/llmService');
 
@@ -7,7 +6,6 @@ const insightService = require('../services/insightService');
 
 const createEntry = async (req, res, next) => {
     try {
-        await connectDB();
         const { userId, ambience, text } = req.body;
 
         if (!userId || !ambience || !text) {
@@ -28,7 +26,6 @@ const createEntry = async (req, res, next) => {
 
 const getEntriesByUser = async (req, res, next) => {
     try {
-        await connectDB();
         const { userId } = req.params;
         const entries = await Journal.find({ userId }).sort({ createdAt: -1 });
         res.status(200).json(entries);
@@ -58,7 +55,6 @@ const analyzeRawText = async (req, res, next) => {
 
 const analyzeAndSaveEntry = async (req, res, next) => {
     try {
-        await connectDB();
         const { id } = req.params;
         
         const entry = await Journal.findById(id);
@@ -80,7 +76,6 @@ const analyzeAndSaveEntry = async (req, res, next) => {
 
 const getUserInsights = async (req, res, next) => {
     try {
-        await connectDB();
         const { userId } = req.params;
         const insights = await insightService.calculateInsights(userId);
         res.status(200).json(insights);
