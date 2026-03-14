@@ -2,7 +2,7 @@ import 'dotenv/config';
 import app from './app.js';
 import connectDB from './config/database.js';
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3001;
 
 const startServer = async () => {
   try {
@@ -13,7 +13,7 @@ const startServer = async () => {
     const server = app.listen(PORT, () => {
       console.log(`
 ╔════════════════════════════════════════╗
-║   🚀 AI Journal Server Running         ║
+║   🚀 AI Journal Server Running          ║
 ║   📍 http://localhost:${PORT}          ║
 ║   🗓️  Environment: ${process.env.NODE_ENV || 'development'}    ║
 ╚════════════════════════════════════════╝

@@ -8,7 +8,13 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+  origin: [
+    'http://localhost:5173', // Local Vite dev server
+    'http://localhost:3000', // Alternative local dev server
+    process.env.VITE_API_URL, // Deployed or custom URL
+    process.env.CORS_ORIGIN,
+    /\.vercel\.app$/ // Allow any deploy previews
+  ].filter(Boolean),
   credentials: true,
 }));
 
