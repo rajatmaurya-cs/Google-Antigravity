@@ -11,6 +11,11 @@ app.use(express.json());
 // Routes
 console.log("just before to enter backend function");
 
+app.use('/', (req, res, next) => {
+    console.log("Midscape server is running");
+    next();
+});
+
 app.use('/api/journal', journalRoutes);
 
 // Centralized error handler
