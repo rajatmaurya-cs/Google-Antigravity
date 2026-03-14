@@ -110,45 +110,45 @@ export default function InsightsSection({ userId, refreshTrigger }) {
             className="flex flex-col gap-8"
           >
             {/* KPI Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4">
               <div className="bg-gradient-to-br from-indigo-500/20 to-purple-500/10 border border-indigo-500/20 rounded-xl p-4 flex flex-col overflow-hidden">
-                <span className="text-indigo-300 text-xs font-semibold uppercase tracking-wider mb-2 flex items-center gap-1.5 truncate">
+                <span className="text-indigo-300 text-xs font-semibold uppercase tracking-wider mb-2 grid grid-cols-[auto,1fr] items-center gap-1.5 min-w-0">
                   <BarChart3 className="w-3.5 h-3.5 shrink-0" /> 
-                  <span className="truncate">Total Entries</span>
+                  <span className="min-w-0 whitespace-normal break-normal leading-snug">Total Entries</span>
                 </span>
-                <span className="text-3xl font-bold text-white mt-auto truncate">{insights.totalEntries}</span>
+                <span className="text-3xl font-bold text-white mt-auto">{insights.totalEntries}</span>
               </div>
 
               <div className="bg-gradient-to-br from-rose-500/20 to-orange-500/10 border border-rose-500/20 rounded-xl p-4 flex flex-col overflow-hidden">
-                <span className="text-rose-300 text-xs font-semibold uppercase tracking-wider mb-2 flex items-center gap-1.5 truncate">
+                <span className="text-rose-300 text-xs font-semibold uppercase tracking-wider mb-2 grid grid-cols-[auto,1fr] items-center gap-1.5 min-w-0">
                   <Heart className="w-3.5 h-3.5 shrink-0" /> 
-                  <span className="truncate">Top Emotion</span>
+                  <span className="min-w-0 whitespace-normal break-normal leading-snug">Top Emotion</span>
                 </span>
-                <span className="text-lg font-bold text-white mt-auto capitalize flex items-center gap-2 overflow-hidden">
+                <span className="text-base sm:text-lg font-bold text-white mt-auto capitalize grid grid-cols-[auto,1fr] items-center gap-2 min-w-0">
                   {insights.topEmotion ? (
                     <>
                       <span className="shrink-0">{emotionMemoji[insights.topEmotion.toLowerCase()] || '😊'}</span>
-                      <span className="truncate">{insights.topEmotion}</span>
+                      <span className="min-w-0 whitespace-normal break-normal leading-snug">{insights.topEmotion}</span>
                     </>
                   ) : (
-                    <span className="truncate">N/A</span>
+                    <span className="leading-tight">N/A</span>
                   )}
                 </span>
               </div>
 
               <div className="bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/20 rounded-xl p-4 flex flex-col overflow-hidden">
-                <span className="text-emerald-300 text-xs font-semibold uppercase tracking-wider mb-2 flex items-center gap-1.5 truncate">
+                <span className="text-emerald-300 text-xs font-semibold uppercase tracking-wider mb-2 grid grid-cols-[auto,1fr] items-center gap-1.5 min-w-0">
                   <TrendingUp className="w-3.5 h-3.5 shrink-0" /> 
-                  <span className="truncate">Top Ambience</span>
+                  <span className="min-w-0 whitespace-normal break-normal leading-snug">Top Ambience</span>
                 </span>
-                <span className="text-lg font-bold text-white mt-auto capitalize flex items-center gap-2 overflow-hidden">
+                <span className="text-base sm:text-lg font-bold text-white mt-auto capitalize grid grid-cols-[auto,1fr] items-center gap-2 min-w-0">
                   {insights.mostUsedAmbience ? (
                     <>
                       <span className="shrink-0">{ambienceEmoji[insights.mostUsedAmbience]}</span>
-                      <span className="truncate">{insights.mostUsedAmbience}</span>
+                      <span className="min-w-0 whitespace-normal break-normal leading-snug">{insights.mostUsedAmbience}</span>
                     </>
                   ) : (
-                    <span className="truncate">N/A</span>
+                    <span className="leading-tight">N/A</span>
                   )}
                 </span>
               </div>
