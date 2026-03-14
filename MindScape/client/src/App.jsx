@@ -24,8 +24,8 @@ function App() {
       setEntries(entriesData);
       setInsights(insightsData);
     } catch (err) {
-      console.error(err);
-      setError('Failed to load user data. Is the backend running?');
+      console.error('Failed to load user data', err);
+      setError(err?.message ? `Failed to load user data: ${err.message}` : 'Failed to load user data. Is the backend running?');
     } finally {
       setLoading(false);
     }

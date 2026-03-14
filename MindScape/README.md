@@ -52,7 +52,12 @@ LLM_MODEL=gemini-2.5-flash
 
 **Frontend (`client/.env`)**
 ```env
-VITE_API_URL=http://localhost:5000/api
+# Backend base URL (recommended: no `/api` suffix)
+VITE_API_URL=http://localhost:5000
+
+# Notes:
+# - The frontend will call `${VITE_API_URL}/api/...`.
+# - If you set `VITE_API_URL` including `/api` (e.g. `http://localhost:5000/api`), it will still work.
 ```
 
 ### 2. Backend Setup
@@ -70,6 +75,12 @@ npm install
 npm run dev
 ```
 The client will start on `http://localhost:5173` (default Vite port).
+
+## Deployment Notes (Vercel)
+
+- This repo is split into `client/` (Vite static frontend) and `server/` (Express API). Vercel will not run an always-on Express server from `server/src/server.js` as part of the frontend deploy.
+- Deploy the backend separately (Render/Railway/Fly.io/any Node host), then set `VITE_API_URL` in your Vercel frontend project to that backend’s base URL and redeploy.
+- If you deploy both under the same domain via a proxy/rewrite, you can omit `VITE_API_URL` and the frontend will call `/api/...` on the same origin.
 
 ## API Endpoints
 
