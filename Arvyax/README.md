@@ -451,6 +451,15 @@ brew services start mongodb-community
 # Or manually start MongoDB service
 ```
 
+### Vercel + MongoDB Atlas: buffering timed out
+If you see an error like:
+`Operation \`journals.find()\` buffering timed out after 10000ms`
+
+**Checklist:**
+1. Set `MONGODB_URI` in your Vercel Project Environment Variables (Production + Preview).
+2. In MongoDB Atlas, allow your deployment to connect (Network Access). Vercel does not have a fixed outbound IP, so the simplest option is temporarily allowing `0.0.0.0/0` while testing.
+3. Note: Atlas won’t show a database/collection until the first successful write (a `find()` alone won’t create it).
+
 ### GROQ_API_KEY not working
 ```
 Error: 400 Bad Request

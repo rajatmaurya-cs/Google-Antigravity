@@ -4,30 +4,39 @@ import mongoose from 'mongoose';
  * Global is used here to maintain a cached connection across hot reloads
  * in development and serverless function invocations in production.
  */
-let cached = global.mongoose;
+let cached = globalThis.__mongoose;
 
 if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
+  cached = globalThis.__mongoose = { conn: null, promise: null };
 }
 
 const connectDB = async () => {
-  if (cached.conn) {
+  if (cached.conn?.connection?.readyState === 1) {
     console.log('Using cached MongoDB connection');
     return cached.conn;
   }
 
+  const uri = process.env.MONGODB_URI;
+  if (!uri) {
+    if (process.env.NODE_ENV === 'production') {
+      throw new Error('Missing MONGODB_URI in environment (required in production)');
+    }
+  }
+
   if (!cached.promise) {
     const opts = {
-      bufferCommands: false, // Disable Mongoose buffering
-      connectTimeoutMS: 10000, 
-      serverSelectionTimeoutMS: 10000, 
+      bufferCommands: false,
+      connectTimeoutMS: 30000,
+      serverSelectionTimeoutMS: 30000,
+      maxPoolSize: 10,
     };
 
-    const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/ai-journal';
+    const fallbackUri = 'mongodb://localhost:27017/ai-journal';
 
-    cached.promise = mongoose.connect(uri, opts).then((mongoose) => {
-      console.log('✓ New MongoDB connection established');
-      return mongoose;
+    mongoose.set('bufferCommands', false);
+    cached.promise = mongoose.connect(uri || fallbackUri, opts).then((m) => {
+      console.log('✓ MongoDB connection established');
+      return m;
     });
   }
 

@@ -2,9 +2,15 @@ import Journal from '../models/Journal.js';
 import Groq from 'groq-sdk';
 import { asyncHandler } from '../middleware/errorHandler.js';
 
-const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY,
-});
+let groqClient;
+const getGroqClient = () => {
+  if (groqClient) return groqClient;
+  if (!process.env.GROQ_API_KEY) {
+    throw new Error('Missing GROQ_API_KEY in environment');
+  }
+  groqClient = new Groq({ apiKey: process.env.GROQ_API_KEY });
+  return groqClient;
+};
 
 const GROQ_MODEL = process.env.GROQ_MODEL || 'llama-3.1-8b-instant';
 
@@ -66,9 +72,7 @@ export const analyzeEmotion = asyncHandler(async (req, res) => {
   }
 
   try {
-    if (!process.env.GROQ_API_KEY) {
-      throw new Error('Missing GROQ_API_KEY in environment');
-    }
+    const groq = getGroqClient();
 
     const completion = await groq.chat.completions.create({
       model: GROQ_MODEL,

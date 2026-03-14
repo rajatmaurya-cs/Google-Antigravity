@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import mongoose from 'mongoose';
 import journalRoutes from './routes/journal.js';
 import { errorHandler, asyncHandler } from './middleware/errorHandler.js';
 import { apiLimiter } from './middleware/rateLimiter.js';
@@ -30,6 +31,9 @@ app.get('/api/health', asyncHandler(async (req, res) => {
     success: true,
     message: 'Server is running',
     timestamp: new Date().toISOString(),
+    db: {
+      readyState: mongoose.connection.readyState,
+    },
   });
 }));
 
